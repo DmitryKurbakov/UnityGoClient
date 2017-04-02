@@ -11,16 +11,31 @@ namespace Assets.Scenes.web.Scripts
     {
         public static SocketIOComponent socket;
         public static Player player;
+        public static GameObject waitImage;
+        public static GameObject pauseImage;
+        public static GameObject canvas;
+        public static bool isPause = false;
 
         public void Start()
         {
             GameObject go = GameObject.Find("SocketIO");
             socket = go.GetComponent<SocketIOComponent>();
-            
+
+            waitImage = GameObject.Find("WaitImage");
+            waitImage.SetActive(false);
+
+            pauseImage = GameObject.Find("PauseImage");
+            pauseImage.SetActive(false);
+
+            canvas = GameObject.Find("Canvas");
+
             socket.On("START_ATTRIBUTES", InitializePlayer);
             socket.Connect();
             socket.On("FINISH_MOVE", PlayerFinishMove);
-            //socket.On("WAIT", Wait);
+            socket.On("WAIT", Wait);
+            socket.On("START", Start);
+            socket.On("PAUSE", Pause);
+            socket.On("PLAY", Play);
             //socket.On("open", TestOpen);
             //socket.On("boop", TestBoop);
             socket.On("error", TestError);
@@ -99,7 +114,7 @@ namespace Assets.Scenes.web.Scripts
 
         public void TestClose(SocketIOEvent e)
         {
-           // Debug.Log("[SocketIO] Close received: " + e.name + " " + e.data);
+           Debug.Log("You're disconnect");
         }
 
         public void PlayerFinishMove(SocketIOEvent e)
@@ -136,10 +151,32 @@ namespace Assets.Scenes.web.Scripts
 
         public void Wait(SocketIOEvent e)
         {
-            //Debug.Log("start");
-            new WaitForSeconds(20);
-            Debug.Log("end");
+            waitImage.SetActive(true);
+            //new WaitForSeconds(20);
+            
         }
 
+        public void Start(SocketIOEvent e)
+        {
+            waitImage.SetActive(false);
+            //new WaitForSeconds(20);
+        }
+
+        public void Pause(SocketIOEvent e)
+        {
+            pauseImage.SetActive(true);
+
+            isPause = true;
+            //new WaitForSeconds(20);
+        }
+
+        public void Play(SocketIOEvent e)
+        {
+            isPause = false;
+            pauseImage.SetActive(false);
+
+            
+            //new WaitForSeconds(20);
+        }
     }
 }

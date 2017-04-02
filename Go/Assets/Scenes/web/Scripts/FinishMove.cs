@@ -31,27 +31,14 @@ namespace Assets.Scenes.web.Scripts
 
         public void OnMouseDown()
         {
-            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            foreach (var item in ListReg)
-            {
-                var regPos = item.transform.position;
-                const double k = 0.32;
-                if (((mousePos.x >= regPos.x - k) && (mousePos.x <= regPos.x + k))
-                    && ((mousePos.y >= regPos.y - k) && (mousePos.y <= regPos.y + k)))
-                {
-                    var mr = item.GetComponent<SpriteRenderer>();
-                    mr.sprite = Resources.Load<Sprite>(player.isBlack ? "br" : "wr");
-                    mr.transform.localScale = new Vector3(0.025f, 0.025f);
-                    mr.enabled = true;
-
-                    break;
-                }
-            }
+            if (InitView.type[int.Parse(name) / 9, int.Parse(name) % 9] != 0 || CreateConnection.isPause) return;       //TODO: NO KOSTYL!!!
+            var mr = GetComponent<SpriteRenderer>();
+            mr.sprite = Resources.Load<Sprite>(player.isBlack ? "br" : "wr");
+            mr.transform.localScale = new Vector3(0.025f, 0.025f);
+            mr.enabled = true;
 
             StartCoroutine(SentPosition());
-
-            
 
             //socket.Close();
             //new WaitForSeconds(10);
