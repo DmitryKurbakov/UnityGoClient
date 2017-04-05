@@ -39,8 +39,8 @@ namespace Assets.Scripts
                     && ((mousePos.y >= regPos.y - k) && (mousePos.y <= regPos.y + k)))
                 {
                     var mr = item.GetComponent<SpriteRenderer>();
-                    mr.sprite = Resources.Load<Sprite>(Game.Turn++ % 2 == 0 ? "br" : "wr");
-                    GameBoard.game.Rocks.ElementAt(int.Parse(name)).type = Game.Turn % 2 != 0 ? 1 : 2;
+                    mr.sprite = Resources.Load<Sprite>(Game1.Turn++ % 2 == 0 ? "br" : "wr");
+                    GameBoard.game.Rocks.ElementAt(int.Parse(name)).type = Game1.Turn % 2 != 0 ? 1 : 2;
                     //GameBoard.number = int.Parse(name);
                     //CaptureTest
                     mr.enabled = true;

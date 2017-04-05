@@ -15,7 +15,7 @@ namespace Assets.Scripts
 
         public List<GameObject> ListReg { get; set; }
 
-        public static Game game;
+        public static Game1 game;
 
         public static int number;
 
@@ -31,9 +31,9 @@ namespace Assets.Scripts
             passButton = GameObject.Find("PassButton").GetComponent<Button>();
             passButton.onClick.AddListener(OnPassButtonClick);
 
-            game = new Game();
+            game = new Game1();
             //turn = 0;
-            Game.Turn = 0;
+            Game1.Turn = 0;
 
             ListReg = new List<GameObject>();
             Reg = GameObject.FindGameObjectsWithTag("reg");
