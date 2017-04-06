@@ -35,6 +35,13 @@ public class ButtonsHandler : MonoBehaviour
 
     public void onExitButton()
     {
+        Game.socket.Close();
+        SceneManager.LoadScene("menu");
+    }
+
+    public void OnCancelButton()
+    {
+        Game.socket.Close();
         SceneManager.LoadScene("menu");
     }
 

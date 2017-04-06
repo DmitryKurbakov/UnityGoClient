@@ -13,7 +13,7 @@ public class Game : MonoBehaviour
 {
     public static SocketIOComponent socket;
     public static GameObject mainCanvas;
-    public static GameObject pauseImage;
+    public static GameObject winCanvas;
     public static GameObject waitImage;
     public static GameObject rockColorImage;
     public static GameObject timeText;
@@ -23,6 +23,7 @@ public class Game : MonoBehaviour
     public static Player player;
 
     public static bool isPause = false;
+    public static bool isFinish = false;
     public static int move;
 
     public void Start()
@@ -32,11 +33,12 @@ public class Game : MonoBehaviour
 
         mainCanvas = GameObject.Find("MainCanvas");
 
-        pauseImage = GameObject.Find("PauseImage");
-        pauseImage.SetActive(false);
-
         waitImage = GameObject.Find("WaitImage");
-        waitImage.SetActive(false);
+        waitImage.transform.localPosition = new Vector3(0, 0, 0);
+        waitImage.SetActive(true);
+
+        winCanvas = GameObject.Find("WinCanvas");
+        winCanvas.SetActive(false);
 
         rockColorImage = GameObject.Find("RockColorImage");
 
@@ -57,9 +59,10 @@ public class Game : MonoBehaviour
         socket.On("PAUSE", Pause);
         socket.On("PLAY", Play);
         socket.On("END_OF_GAME", EndOfGame);
+        socket.On("OPPONENT_DISCONNECT", OpponentDisconnect);
 
         socket.On("error", TestError);
-        socket.On("close", TestClose);
+        socket.On("close", Close);
 
         //StartCoroutine(BeepBoop());
         //socket.autoConnect = false;
@@ -99,12 +102,20 @@ public class Game : MonoBehaviour
         FinishMove.player = player;
     }
 
+    public void OpponentDisconnect(SocketIOEvent e)
+    {
+        if (isFinish) return;
+        Debug.Log("Opponent disconnect");
+        socket.Close();
+        SceneManager.LoadScene("menu");
+    }
+
     public void TestError(SocketIOEvent e)
     {
         // Debug.Log("[SocketIO] Error received: " + e.name + " " + e.data);
     }
 
-    public void TestClose(SocketIOEvent e)
+    public void Close(SocketIOEvent e)
     {
         Debug.Log("You're disconnect");
     }
@@ -151,8 +162,7 @@ public class Game : MonoBehaviour
 
         var moveNumber = moveText.GetComponent<Text>();
         moveNumber.text = (move++).ToString();
-
-        pauseImage.SetActive(true);
+        
         isPause = true;
         ButtonsHandler.passButton.interactable = false;
     }
@@ -167,15 +177,32 @@ public class Game : MonoBehaviour
 
         isPause = false;
         ButtonsHandler.passButton.interactable = true;
-        pauseImage.SetActive(false);
         //new WaitForSeconds(20);
         StartCoroutine(PauseEnd());
     }
 
     public void EndOfGame(SocketIOEvent e)
     {
+        isFinish = true;
+
+        //winCanvas.GetComponent<Canvas>().
         //TODO: e to win scene
-        SceneManager.LoadScene("win");
+        Variables.winStatus = (player.isBlack &&
+                              String.Compare(e.data.list[0].ToString().Trim('"'), "1", StringComparison.Ordinal) == 0) 
+                              
+                              || (!player.isBlack &&
+                              String.Compare(e.data.list[0].ToString().Trim('"'), "2", StringComparison.Ordinal) == 0)
+
+            ? "Congratulations!"
+            : "Loss";
+
+        Variables.blackScores = e.data.list[1].ToString().Trim('"');
+        Variables.whiteScores = e.data.list[2].ToString().Trim('"');
+
+        socket.Close();
+
+        winCanvas.SetActive(true);
+        winCanvas.transform.localPosition = new Vector3(0, 0, 0);
 
         Debug.Log("Winner: " + e.data.list[0]);
     }
