@@ -96,7 +96,7 @@ public class Game : MonoBehaviour
         player = new Player(isBlack, scores);
 
         var mr = rockColorImage.GetComponent<Image>();
-        mr.sprite = Resources.Load<Sprite>(isBlack ? "br" : "wr");
+        mr.sprite = Resources.Load<Sprite>(isBlack ? "br_icon" : "wr_icon");
 
         InitView.player = player;
         FinishMove.player = player;
@@ -158,11 +158,13 @@ public class Game : MonoBehaviour
         time.text = String.Empty;
 
         var turn = turntext.GetComponent<Text>();
+
+        turn.color = Color.red;
         turn.text = "Opponent Turn";
 
         var moveNumber = moveText.GetComponent<Text>();
-        moveNumber.text = (move++).ToString();
-        
+        moveNumber.text = "Move: " + move++;
+
         isPause = true;
         ButtonsHandler.passButton.interactable = false;
     }
@@ -170,10 +172,12 @@ public class Game : MonoBehaviour
     public void Play(SocketIOEvent e)
     {
         var turn = turntext.GetComponent<Text>();
+
+        turn.color = Color.black;
         turn.text = "Your Turn";
 
         var moveNumber = moveText.GetComponent<Text>();
-        moveNumber.text = (move++).ToString();
+        moveNumber.text = "Move: " + move++;
 
         isPause = false;
         ButtonsHandler.passButton.interactable = true;

@@ -49,7 +49,7 @@ namespace Assets.Scripts
                     //Debug.Log(name);
                     // Debug.Log(GameBoard.game.Rocks.ElementAt(int.Parse(name)).type);
 
-                    mr.transform.localScale = new Vector3(0.025f, 0.025f);
+                    //mr.transform.localScale = new Vector3(0.025f, 0.025f);
                       
                     
                     break;

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b99d2f4ef42ec6644b4b0a6553785f8e
+timeCreated: 1491523243
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Japanese Style
+  fontNames:
+  - Japanese Style
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
