@@ -96,7 +96,7 @@ public class Game : MonoBehaviour
         player = new Player(isBlack, scores);
 
         var mr = rockColorImage.GetComponent<Image>();
-        mr.sprite = Resources.Load<Sprite>(isBlack ? "br_icon" : "wr_icon");
+        mr.sprite = Resources.Load<Sprite>(isBlack ? "br" : "wr");
 
         InitView.player = player;
         FinishMove.player = player;
@@ -141,7 +141,7 @@ public class Game : MonoBehaviour
                     mr.sprite = Resources.Load<Sprite>(InitView.type[i, j] == 1 ? "br" : "wr");
                     mr.enabled = true;
                 }
-                mr.transform.localScale = new Vector3(0.025f, 0.025f);
+                mr.transform.localScale = new Vector3(0.1f, 0.1f);
                     
             }
         }
