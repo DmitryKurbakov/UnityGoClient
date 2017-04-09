@@ -131,7 +131,7 @@ public class Game : MonoBehaviour
             {
                 InitView.type[i, j] = int.Parse(e.data.list[i * 9 + j].ToString());
                 var mr = GameObject.Find((i * 9 + j).ToString()).GetComponent<SpriteRenderer>();
-
+                mr.transform.localScale = new Vector3(0.1f, 0.1f);
                 if (InitView.type[i, j] == 0)
                 {
                     mr.enabled = false;
@@ -139,9 +139,10 @@ public class Game : MonoBehaviour
                 else
                 {
                     mr.sprite = Resources.Load<Sprite>(InitView.type[i, j] == 1 ? "br" : "wr");
+                    
                     mr.enabled = true;
                 }
-                mr.transform.localScale = new Vector3(0.1f, 0.1f);
+                
                     
             }
         }
