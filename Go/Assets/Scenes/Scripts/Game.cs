@@ -64,9 +64,7 @@ public class Game : MonoBehaviour
         socket.On("error", TestError);
         socket.On("close", Close);
 
-        //StartCoroutine(BeepBoop());
-        //socket.autoConnect = false;
-        //socket.On("close");
+        
 
           
     }
@@ -112,7 +110,7 @@ public class Game : MonoBehaviour
 
     public void TestError(SocketIOEvent e)
     {
-        // Debug.Log("[SocketIO] Error received: " + e.name + " " + e.data);
+        
     }
 
     public void Close(SocketIOEvent e)
@@ -229,12 +227,10 @@ public class Game : MonoBehaviour
             data["row"] = "0";
             data["col"] = "0";
             data["color"] = "0";
-            //KOSTYL
             data["pass"] = 0.ToString();
 
             socket.Emit("POSITION", new JSONObject(data));
             isPause = true;
-            //break;
             yield return null;
         }
            

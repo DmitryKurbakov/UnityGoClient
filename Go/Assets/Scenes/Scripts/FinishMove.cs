@@ -33,9 +33,10 @@ public class FinishMove : MonoBehaviour
 
         if (InitView.type[int.Parse(name) / 9, int.Parse(name) % 9] != 0 || Game.isPause) return;
         var mr = GetComponent<SpriteRenderer>();
-        mr.sprite = Resources.Load<Sprite>(player.isBlack ? "br" : "wr");
         mr.transform.localScale = new Vector3(0.025f, 0.025f);
-        mr.enabled = true;
+        mr.sprite = Resources.Load<Sprite>(player.isBlack ? "br" : "wr");
+        
+        //mr.enabled = true;
 
         StartCoroutine(SentPosition());
 
